@@ -1,0 +1,10 @@
+__pycache__/
+*.age
+*.kdbx
+*.csv
+*.pem
+*.sqlite3*
+.env
+data/
+receipts/
+compose.yaml

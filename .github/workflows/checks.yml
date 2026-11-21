@@ -1,0 +1,16 @@
+name: Checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  backup-and-restore:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - run: python3 -m unittest -q
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends age
+          docker pull "$(python3 -c 'import vault_setup; print(vault_setup.IMAGE)')"
+      - run: bash tests/smoke.sh
